@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Calculadora de Luz trujillo </title>
+    <title>Calculadora de Luz</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -16,11 +16,12 @@
             margin: 0;
         }
         .container {
-            background: rgba(255, 255, 255, 0.8);
+            background: rgba(255, 255, 255, 0.9);
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
             text-align: center;
+            max-width: 400px;
         }
         h2 {
             margin-bottom: 20px;
@@ -54,9 +55,9 @@
 </head>
 <body>
     <div class="container">
-        <h2>Calculadora de Costo de Luz trujillo</h2>
+        <h2>Calculadora de Costo de Luz</h2>
         <label for="consumo">Ingresa tu consumo (kWh):</label>
-        <input type="number" id="consumo" placeholder="Ejemplo: 20">
+        <input type="number" id="consumo" placeholder="Ejemplo: 22">
         <br>
         <button onclick="calcularCosto()">Calcular</button>
         <h3>Resultado: <span id="resultado"></span></h3>
@@ -66,7 +67,13 @@
         function calcularCosto() {
             const cargoFijo = 3.35;
             const mantenimiento = 1.40;
-            const igv = 0.18;
+            const tarifaEnergia = 0.5018;
+            const alumbradoPublico = 0.54;
+            const interesCompensatorio = 0.26;
+            const igv = 2.99;
+            const interesMoratorio = 0.03;
+            const saldoRedondeo = -0.03;
+            const diferenciaRedondeo = -0.03;
             const ley = 0.24;
             
             let consumo = parseFloat(document.getElementById("consumo").value);
@@ -75,10 +82,9 @@
                 return;
             }
             
-            let subtotal = consumo * 0.50;
-            let total = subtotal + cargoFijo + mantenimiento;
-            total += total * igv;
-            total += ley;
+            let subtotalEnergia = consumo * tarifaEnergia;
+            let subtotal = subtotalEnergia + cargoFijo + mantenimiento + alumbradoPublico + interesCompensatorio;
+            let total = subtotal + igv + interesMoratorio + saldoRedondeo + diferenciaRedondeo + ley;
             
             document.getElementById("resultado").innerText = total.toFixed(2) + " soles";
         }
